@@ -45,11 +45,12 @@ begin
   reset(asistentes);
   read(asistentes, a);
   while (not eof(asistentes)) do begin
-    while (a.numero > 1000) do
-      read(asistentes, a);
-    a.nombre := '@';
-    seek(asistentes, filePos(asistentes)-1);
-    write(asistentes, a);
+    read(asistentes, a);
+    if (a.numero < 1000) then begin 
+      a.nombre := '@' + a.nombre;
+      seek(asistentes, filePos(asistentes)-1);
+      write(asistentes, a);
+    end;
   end;
   close(asistentes);
 end;
