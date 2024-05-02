@@ -1,4 +1,5 @@
 program ej6;
+const valorAlto = 9999;
 type
   prenda = record // se dispone
     cod_prenda: integer;
