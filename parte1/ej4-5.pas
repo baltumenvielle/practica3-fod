@@ -1,4 +1,4 @@
-program ej4;
+program ej4y5;
 const valorAlto = 9999;
 type
   reg_flor = record
@@ -70,27 +70,32 @@ end;
 procedure eliminarFlor(var flores: tArchFlores; f_borrar: reg_flor);
 var
   f, cabecera: reg_flor;
+  esta: boolean;
   pos: integer;
 begin
   pos := 1;
+  esta := false;
   reset(flores);
   read(flores, cabecera);
   leer(flores, f);
-  while (f.codigo <> valorAlto) do begin
-    if (f.codigo = f_borrar.codigo) and (f.nombre = f_borrar.nombre) then begin
-      seek(flores, filePos(flores)-1);
-      write(flores, cabecera); // se escribe la cabecera en el registro eliminado
-      cabecera.codigo := pos * -1;
-      seek(flores, 0);
-      write(flores, cabecera);
-      writeln('Se eliminó la flor');
-      break;
-    end
+  while (f.codigo <> valorAlto) and (not esta) do begin
+    if (f.codigo = f_borrar.codigo) and (f.nombre = f_borrar.nombre) then
+      esta := true
     else begin
       leer(flores, f);
       pos := pos + 1;
     end;
   end;
+  if (esta) then begin
+    seek(flores, filePos(flores)-1);
+    write(flores, cabecera); // se escribe la cabecera en el registro eliminado
+    cabecera.codigo := pos * -1;
+    seek(flores, 0);
+    write(flores, cabecera);
+    writeln('Se eliminó la flor');    
+  end
+  else
+    writeln('No se encontro la flor a eliminar');
 end;
 
 var
